@@ -15,6 +15,7 @@
 using FluentAssert;
 
 using FluentWebUITesting;
+using FluentWebUITesting.Extensions;
 
 using gar3t.decuit;
 
@@ -22,64 +23,102 @@ using NUnit.Framework;
 
 namespace decuit.Tests.Integration
 {
-	public class SetTests
+	public partial class SetTests
 	{
 		[TestFixture]
-		public class When_asked_to_Set_the_value_of_a_TextBox
+		public class When_asked_to_Set_the_value_of_a_DropDownList
 		{
+			private const string Expected = "Texas";
+			private const string LabelText = "State";
+			private const string PageName = "SetDropDownList.html";
+
 			[Test]
-			public void Should_fail_if_the_label_text_does_not_exist()
+			public void Should_fail_if_the_drop_down_does_not_have_a_matching_option_by_text_or_value()
 			{
+				const string badOption = "Ontario";
 				var browserActions = UITestRunner.InitializeWorkFlowContainer(
-					b => b.Set("Last Name").To("James")
+					b => b.Set(LabelText).To(badOption)
 					);
 
 				var exception = Assert.Throws<AssertionException>(() => new IntegrationTestRunner().Run(
 				                                                        	browserActions,
 				                                                        	SimpleWebServer.InitializeServerResponsesContainer(),
-				                                                        	"SetTextBox.html"));
-				exception.Message.Contains("Last Name").ShouldBeTrue();
+				                                                        	PageName));
+
+				exception.Message.Contains(badOption).ShouldBeTrue();
+			}
+
+			[Test]
+			public void Should_fail_if_the_label_text_does_not_exist()
+			{
+				const string textOfBadLabel = "Country";
+				var browserActions = UITestRunner.InitializeWorkFlowContainer(
+					b => b.Set(textOfBadLabel).To(Expected)
+					);
+
+				var exception = Assert.Throws<AssertionException>(() => new IntegrationTestRunner().Run(
+				                                                        	browserActions,
+				                                                        	SimpleWebServer.InitializeServerResponsesContainer(),
+				                                                        	PageName));
+				exception.Message.Contains(textOfBadLabel).ShouldBeTrue();
 			}
 
 			[Test]
 			public void Should_fail_if_the_matching_label_does_not_have_a_For_attribute()
 			{
+				const string textOfBadLabel = "Label without for";
 				var browserActions = UITestRunner.InitializeWorkFlowContainer(
-					b => b.Set("Last Name").To("James")
+					b => b.Set(textOfBadLabel).To(Expected)
 					);
 
 				var exception = Assert.Throws<AssertionException>(() => new IntegrationTestRunner().Run(
 				                                                        	browserActions,
 				                                                        	SimpleWebServer.InitializeServerResponsesContainer(),
-				                                                        	"SetTextbox_LabelWithoutFor.html"));
-				exception.Message.Contains("Last Name").ShouldBeTrue();
+				                                                        	PageName));
+				exception.Message.Contains(textOfBadLabel).ShouldBeTrue();
 			}
 
 			[Test]
 			public void Should_fail_if_the_matching_labels_For_attribute_refers_to_a_missing_control()
 			{
+				const string textOfBadLabel = "Label with incorrect for";
 				var browserActions = UITestRunner.InitializeWorkFlowContainer(
-					b => b.Set("Last Name").To("James")
+					b => b.Set(textOfBadLabel).To(Expected)
 					);
 
 				var exception = Assert.Throws<AssertionException>(() => new IntegrationTestRunner().Run(
 				                                                        	browserActions,
 				                                                        	SimpleWebServer.InitializeServerResponsesContainer(),
-				                                                        	"SetTextbox_LabelWithForPointedToMissingControl.html"));
-				exception.Message.Contains("Last Name").ShouldBeTrue();
+				                                                        	PageName));
+				exception.Message.Contains(textOfBadLabel).ShouldBeTrue();
 			}
 
 			[Test]
-			public void Should_succeed_if_the_label_text_and_for_attribute_match()
+			public void Should_succeed_if_drop_down_has_an_option_with_matching_text()
 			{
 				var browserActions = UITestRunner.InitializeWorkFlowContainer(
-					b => b.Set("First Name").To("James")
+					b => b.Set(LabelText).To(Expected),
+					b => b.DropDownListWithId("ddlState").GetSelectedText().ShouldBeEqualTo(Expected)
 					);
 
 				new IntegrationTestRunner().Run(
 					browserActions,
 					SimpleWebServer.InitializeServerResponsesContainer(),
-					"SetTextBox.html");
+					PageName);
+			}
+
+			[Test]
+			public void Should_succeed_if_drop_down_has_an_option_with_matching_value()
+			{
+				var browserActions = UITestRunner.InitializeWorkFlowContainer(
+					b => b.Set(LabelText).To("NM"),
+					b => b.DropDownListWithId("ddlState").GetSelectedText().ShouldBeEqualTo("New Mexico")
+					);
+
+				new IntegrationTestRunner().Run(
+					browserActions,
+					SimpleWebServer.InitializeServerResponsesContainer(),
+					PageName);
 			}
 		}
 	}

@@ -69,10 +69,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SetTests_DropDownList.cs" />
     <Compile Include="InsufficientHttpMessageHandlingStepsException.cs" />
     <EmbeddedResource Include="Pages\SetTextBox.html" />
     <Compile Include="IntegrationTestRunner.cs" />
-    <Compile Include="SetTests.cs" />
+    <Compile Include="SetTests_TextBox.cs" />
     <Compile Include="SimpleWebServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -83,10 +84,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Pages\SetTextbox_LabelWithoutFor.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Pages\SetTextbox_LabelWithForPointedToMissingControl.html" />
+    <EmbeddedResource Include="Pages\SetDropDownList.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -29,10 +29,10 @@ namespace decuit.Tests.Integration
 		public void Run(IEnumerable<Action<Browser>> browserActions, IEnumerable<Action<HttpMessage, ISocketProxy>> webServerResponses, string initialPage)
 		{
 			UITestRunner.InitializeBrowsers(x =>
-			                                	{
-			                                		x.CloseBrowserAfterEachTest = true;
-			                                		x.UseInternetExplorer = true;
-			                                	});
+				{
+					x.CloseBrowserAfterEachTest = true;
+					x.UseInternetExplorer = true;
+				});
 
 			var webServer = new SimpleWebServer(webServerResponses);
 			try

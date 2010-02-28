@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 
 using gar3t.Common;
 using gar3t.Common.Extensions;
@@ -74,6 +75,7 @@ namespace decuit.Tests.Integration
 			_stepIndex = 0;
 			_tcp = new Tcp();
 			_tcp.Listen(Port, ProcessClientRequest);
+			Thread.Sleep(100); // let server start
 		}
 
 		public void Stop()

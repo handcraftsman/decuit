@@ -16,10 +16,6 @@ using System;
 
 using FluentAssert;
 
-using FluentWebUITesting.Extensions;
-
-using NUnit.Framework;
-
 using WatiN.Core;
 
 namespace gar3t.decuit
@@ -48,30 +44,8 @@ namespace gar3t.decuit
 			control.Exists.ShouldBeTrue(String.Format("Could not find a control with id '{0}' as referenced in For atribute of Label with text {1}", itsLinkedControlId, LabelText));
 			control.Enabled.ShouldBeTrue(String.Format("Cannot set the value of control with id '{0}' because it is disabled.", itsLinkedControlId, LabelText));
 
-			var txtBox = _browser.TextBoxWithId(itsLinkedControlId);
-			if (txtBox.Exists().Passed)
-			{
-				txtBox.Text().SetValueTo(text);
-				return;
-			}
-			Assert.Fail(String.Format("Don't know how to set the value of control with id '{0}'", itsLinkedControlId));
-//			var dropDown = _browser.DropDownListWithId(itsLinkedControlId);
-//			if (dropDown.Exists().Passed)
-//			{
-//				var option = dropDown.OptionWithText(text);
-//				if (option.Exists().Passed)
-//				{
-//					option.Select();
-//					return;
-//				}
-//				option = dropDown.OptionWithValue(text);
-//				if (option.Exists().Passed)
-//				{
-//					option.Select();
-//					return;
-//				}
-//				Assert.Fail(String.Format("The drop down with label '{0}' does not have option '{1}'", LabelText, text));
-//			}
+			var inputSetter = InputSetter.GetFor(_browser, itsLinkedControlId);
+			inputSetter.SetText(_browser, itsLinkedControlId, text);
 		}
 	}
 }
