@@ -1,0 +1,3 @@
+source: FluentWebUITesting (http://code.google.com/p/fluent-web-ui-testing/)
+
+license source: http://www.opensource.org/licenses/mit-license.php

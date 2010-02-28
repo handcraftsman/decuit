@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "decuit", "Decuit\decuit.csproj", "{0AEF26A1-0E94-4279-A049-04E12E4999D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "decuit.Tests", "decuit.Tests\decuit.Tests.csproj", "{8E3B980C-64AF-4C59-AAB7-EF87EF02FD6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "decuit.Tests.Integration", "decuit.Tests.Integration\decuit.Tests.Integration.csproj", "{2E1F135B-EAD9-43D1-BFFD-74B6BEAAB4F6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0AEF26A1-0E94-4279-A049-04E12E4999D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AEF26A1-0E94-4279-A049-04E12E4999D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AEF26A1-0E94-4279-A049-04E12E4999D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AEF26A1-0E94-4279-A049-04E12E4999D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E3B980C-64AF-4C59-AAB7-EF87EF02FD6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E3B980C-64AF-4C59-AAB7-EF87EF02FD6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E3B980C-64AF-4C59-AAB7-EF87EF02FD6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E3B980C-64AF-4C59-AAB7-EF87EF02FD6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E1F135B-EAD9-43D1-BFFD-74B6BEAAB4F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E1F135B-EAD9-43D1-BFFD-74B6BEAAB4F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E1F135B-EAD9-43D1-BFFD-74B6BEAAB4F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E1F135B-EAD9-43D1-BFFD-74B6BEAAB4F6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
