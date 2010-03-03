@@ -26,7 +26,7 @@ namespace gar3t.decuit
 	{
 		public bool IsMatch(Browser browser, string id)
 		{
-			return browser.TextBoxWithId(id).Exists().Passed;
+			return browser.TextBoxWithId(id).Exists().IsTrue;
 		}
 
 		public void SetText(Browser browser, string id, string textToSet)
@@ -45,20 +45,20 @@ namespace gar3t.decuit
 	{
 		public bool IsMatch(Browser browser, string id)
 		{
-			return browser.DropDownListWithId(id).Exists().Passed;
+			return browser.DropDownListWithId(id).Exists().IsTrue;
 		}
 
 		public void SetText(Browser browser, string id, string textToSet)
 		{
 			var dropDown = browser.DropDownListWithId(id);
 			var option = dropDown.OptionWithText(textToSet);
-			if (option.Exists().Passed)
+			if (option.Exists().IsTrue)
 			{
 				option.Select();
 				return;
 			}
 			option = dropDown.OptionWithValue(textToSet);
-			if (option.Exists().Passed)
+			if (option.Exists().IsTrue)
 			{
 				option.Select();
 				return;

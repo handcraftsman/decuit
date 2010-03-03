@@ -18,6 +18,8 @@ using System.Linq;
 
 using FluentAssert;
 
+using FluentWebUITesting.Extensions;
+
 using WatiN.Core;
 
 namespace gar3t.decuit
@@ -40,24 +42,40 @@ namespace gar3t.decuit
 
 		public string LabelText { get; private set; }
 
-		public void To(string text)
+		private string GetItsLinkedControlId()
 		{
 			var label = _browser.Label(Find.ByText(LabelText));
 			label.Exists.ShouldBeTrue(String.Format("Could not find Label with text '{0}'", LabelText));
 
 			string itsLinkedControlId = label.For;
 			itsLinkedControlId.ShouldNotBeNullOrEmpty(String.Format("Label with text '{0}' does not have a For attribute", LabelText));
+			return itsLinkedControlId;
+		}
+
+		public void To(string text)
+		{
+			string itsLinkedControlId = GetItsLinkedControlId();
 
 			var control = _browser.Element(Find.ById(itsLinkedControlId));
-			control.Exists.ShouldBeTrue(String.Format("Could not find a control with id '{0}' as referenced in For atribute of Label with text {1}", itsLinkedControlId, LabelText));
+			control.Exists.ShouldBeTrue(String.Format("Could not find a control with id '{0}' as referenced in For attribute of Label with text {1}", itsLinkedControlId, LabelText));
 			control.Enabled.ShouldBeTrue(String.Format("Cannot set the value of control with id '{0}' because it is disabled.", itsLinkedControlId));
 
 			var setter = _setters.FirstOrDefault(x => x.IsMatch(_browser, itsLinkedControlId));
 			if (setter == null)
 			{
-				throw new ArgumentOutOfRangeException(String.Format("There is no configured InputSetter for control type with label '{0}'", LabelText));
+				throw new ArgumentOutOfRangeException("text", String.Format("There is no configured InputSetter for control type with label '{0}'", LabelText));
 			}
 			setter.SetText(_browser, itsLinkedControlId, text);
+		}
+
+		public void To(CheckedState checkedState)
+		{
+			string itsLinkedControlId = GetItsLinkedControlId();
+			var checkBox = _browser.CheckBoxWithId(itsLinkedControlId);
+			checkBox.Exists().ShouldBeTrue(String.Format("Could not find a checkbox with id '{0}' as referenced in For attribute of Label with text {1}", itsLinkedControlId, LabelText));
+			checkBox.Enabled().ShouldBeTrue(String.Format("Cannot set the value of checkbox with id '{0}' because it is disabled.", itsLinkedControlId));
+
+			checkBox.CheckedState().SetValue(checkedState.Value);
 		}
 	}
 }
