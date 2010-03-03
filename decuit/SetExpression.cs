@@ -13,6 +13,8 @@
 //    limitations under the License.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 using FluentAssert;
 
@@ -22,6 +24,12 @@ namespace gar3t.decuit
 {
 	public class SetExpression
 	{
+		private static readonly List<IInputSetter> _setters = new List<IInputSetter>
+		{
+			new TextBoxSetter(),
+			new DropDownListSetter()
+		};
+
 		private readonly Browser _browser;
 
 		public SetExpression(Browser browser, string labelText)
@@ -42,10 +50,14 @@ namespace gar3t.decuit
 
 			var control = _browser.Element(Find.ById(itsLinkedControlId));
 			control.Exists.ShouldBeTrue(String.Format("Could not find a control with id '{0}' as referenced in For atribute of Label with text {1}", itsLinkedControlId, LabelText));
-			control.Enabled.ShouldBeTrue(String.Format("Cannot set the value of control with id '{0}' because it is disabled.", itsLinkedControlId, LabelText));
+			control.Enabled.ShouldBeTrue(String.Format("Cannot set the value of control with id '{0}' because it is disabled.", itsLinkedControlId));
 
-			var inputSetter = InputSetter.GetFor(_browser, itsLinkedControlId);
-			inputSetter.SetText(_browser, itsLinkedControlId, text);
+			var setter = _setters.FirstOrDefault(x => x.IsMatch(_browser, itsLinkedControlId));
+			if (setter == null)
+			{
+				throw new ArgumentOutOfRangeException(String.Format("There is no configured InputSetter for control type with label '{0}'", LabelText));
+			}
+			setter.SetText(_browser, itsLinkedControlId, text);
 		}
 	}
 }

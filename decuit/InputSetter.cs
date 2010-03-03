@@ -13,12 +13,8 @@
 //    limitations under the License.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 using FluentWebUITesting.Extensions;
-
-using JetBrains.Annotations;
 
 using NUnit.Framework;
 
@@ -26,56 +22,48 @@ using WatiN.Core;
 
 namespace gar3t.decuit
 {
-	public class InputSetter
+	public class TextBoxSetter : IInputSetter
 	{
-		private static readonly List<InputSetter> _setters = new List<InputSetter>();
-
-		static InputSetter()
+		public bool IsMatch(Browser browser, string id)
 		{
-			new InputSetter(
-				(b, id) => b.TextBoxWithId(id).Exists().Passed,
-				(b, id, textToSet) => b.TextBoxWithId(id).Text().SetValueTo(textToSet));
-			new InputSetter(
-				(b, id) => b.DropDownListWithId(id).Exists().Passed,
-				(b, id, textToSet) =>
-					{
-						var dropDown = b.DropDownListWithId(id);
-						var option = dropDown.OptionWithText(textToSet);
-						if (option.Exists().Passed)
-						{
-							option.Select();
-							return;
-						}
-						option = dropDown.OptionWithValue(textToSet);
-						if (option.Exists().Passed)
-						{
-							option.Select();
-							return;
-						}
-						Assert.Fail(String.Format("The drop down with id '{0}' does not have option '{1}'", id, textToSet));
-					});
+			return browser.TextBoxWithId(id).Exists().Passed;
 		}
 
-		private InputSetter(Func<Browser, string, bool> isMatch, Action<Browser, string, string> setText)
+		public void SetText(Browser browser, string id, string textToSet)
 		{
-			IsMatch = isMatch;
-			SetText = setText;
-			_setters.Add(this);
+			browser.TextBoxWithId(id).Text().SetValueTo(textToSet);
+		}
+	}
+
+	public interface IInputSetter
+	{
+		bool IsMatch(Browser browser, string id);
+		void SetText(Browser browser, string id, string textToSet);
+	}
+
+	public class DropDownListSetter : IInputSetter
+	{
+		public bool IsMatch(Browser browser, string id)
+		{
+			return browser.DropDownListWithId(id).Exists().Passed;
 		}
 
-		private Func<Browser, string, bool> IsMatch { get; set; }
-		public Action<Browser, string, string> SetText { get; private set; }
-
-		[NotNull]
-		public static InputSetter GetFor([NotNull] Browser browser, [NotNull] string id)
+		public void SetText(Browser browser, string id, string textToSet)
 		{
-			var setter = _setters.FirstOrDefault(x => x.IsMatch(browser, id));
-			if (setter == null)
+			var dropDown = browser.DropDownListWithId(id);
+			var option = dropDown.OptionWithText(textToSet);
+			if (option.Exists().Passed)
 			{
-				throw new ArgumentOutOfRangeException("id",
-				                                      String.Format("There is no configured InputSetter for type of control with id '{0}'", id));
+				option.Select();
+				return;
 			}
-			return setter;
+			option = dropDown.OptionWithValue(textToSet);
+			if (option.Exists().Passed)
+			{
+				option.Select();
+				return;
+			}
+			Assert.Fail(String.Format("The drop down with id '{0}' does not have option '{1}'", id, textToSet));
 		}
 	}
 }
