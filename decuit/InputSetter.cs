@@ -13,11 +13,7 @@
 //    limitations under the License.
 
 using System;
-
 using FluentWebUITesting.Extensions;
-
-using NUnit.Framework;
-
 using WatiN.Core;
 
 namespace gar3t.decuit
@@ -63,7 +59,7 @@ namespace gar3t.decuit
 				option.Select();
 				return;
 			}
-			Assert.Fail(String.Format("The drop down with id '{0}' does not have option '{1}'", id, textToSet));
+			throw new AssertionException(String.Format("The drop down with id '{0}' does not have option '{1}'", id, textToSet));
 		}
 	}
 }

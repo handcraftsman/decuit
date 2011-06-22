@@ -40,7 +40,7 @@ namespace decuit.Tests.Integration
 					b => b.Set(textOfBadLabel).To(Expected)
 					);
 
-				var exception = Assert.Throws<AssertionException>(() => new IntegrationTestRunner().Run(
+				var exception = Assert.Throws<gar3t.decuit.AssertionException>(() => new IntegrationTestRunner().Run(
 				                                                        	browserActions,
 				                                                        	SimpleWebServer.InitializeServerResponsesContainer(),
 				                                                        	PageName));
@@ -55,7 +55,7 @@ namespace decuit.Tests.Integration
 					b => b.Set(textOfBadLabel).To(Expected)
 					);
 
-				var exception = Assert.Throws<AssertionException>(() => new IntegrationTestRunner().Run(
+				var exception = Assert.Throws<gar3t.decuit.AssertionException>(() => new IntegrationTestRunner().Run(
 				                                                        	browserActions,
 				                                                        	SimpleWebServer.InitializeServerResponsesContainer(),
 				                                                        	PageName));
@@ -70,7 +70,7 @@ namespace decuit.Tests.Integration
 					b => b.Set(textOfBadLabel).To(Expected)
 					);
 
-				var exception = Assert.Throws<AssertionException>(() => new IntegrationTestRunner().Run(
+				var exception = Assert.Throws<gar3t.decuit.AssertionException>(() => new IntegrationTestRunner().Run(
 				                                                        	browserActions,
 				                                                        	SimpleWebServer.InitializeServerResponsesContainer(),
 				                                                        	PageName));

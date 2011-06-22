@@ -30,8 +30,9 @@ namespace decuit.Tests.Integration
 		{
 			UITestRunner.InitializeBrowsers(x =>
 				{
-					x.CloseBrowserAfterEachTest = true;
-					x.UseInternetExplorer = true;
+					x.CloseBrowserAfterEachTest = false;
+					x.UseInternetExplorer = false;
+					x.UseFireFox = true;
 				});
 
 			var webServer = new SimpleWebServer(webServerResponses);
